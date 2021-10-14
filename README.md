@@ -1,3 +1,12 @@
+### Описание:
+
+* Задание выполнялось на стеке: [React](https://reactjs.org/ "Перейти в документацию") + [Material Ui](https://mui.com/ "Перейти в документацию")
+* С использованием `useState`, `routers`, `useHistory`
+* Добавление и перераспределение стилей производилось с использованием `makeStyles` -> [link](https://mui.com/styles/api/ "Перейти в документацию")
+* Данные введённые в поля ввода сохраняются в `localStorage` 
+
+
+____________________________________________________________________________________________
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
