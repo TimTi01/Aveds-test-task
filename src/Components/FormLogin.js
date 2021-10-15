@@ -2,16 +2,6 @@ import React, {useEffect, useState} from 'react'
 import {Button, Grid, TextField} from "@mui/material";
 import {useHistory} from "react-router-dom";
 
-// function getJSON(setData) {
-//     fetch('./users.json').then(response => {
-//         return response.json()
-//     }).then(data => {
-//         setData(data)
-//     }).catch(err => {
-//         console.log("Error Reading data " + err)
-//     })
-// }
-
 function checkLoginData(data, email) {
     let arrData = []
     for (const dataItem in data) {
@@ -21,23 +11,6 @@ function checkLoginData(data, email) {
     return  arrData.find(value => value === email) !== undefined
 }
 
-// function checkName(data, email) {
-//     let arrData = []
-//     for (const dataItem in data) {
-//         arrData.push(data[dataItem])
-//     }
-//     let testArr = []
-//     // let result = arrData.find(value => value === email)
-//     arrData.forEach((item, ind, arr) => {
-//         if (item.login !== email) {
-//             testArr.push('0')
-//         } else {
-//             testArr.push(item[ind].name)
-//         }
-//     })
-//
-//     return testArr
-// }
 
 export const FormLogin = () => {
     const [email, setEmail] = useState('');
@@ -95,7 +68,6 @@ export const FormLogin = () => {
         } else {
             console.log(`-Введённые данные-\nEmail: ${email}\nPassword: ${password}`)
         }
-        // console.log(checkName(data, email))
     }
 
     return (
