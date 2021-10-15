@@ -1,15 +1,63 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Button, Grid, TextField} from "@mui/material";
 import {useHistory} from "react-router-dom";
 
-export const FormLogin = ({login, setLogin}) => {
+// function getJSON(setData) {
+//     fetch('./users.json').then(response => {
+//         return response.json()
+//     }).then(data => {
+//         setData(data)
+//     }).catch(err => {
+//         console.log("Error Reading data " + err)
+//     })
+// }
+
+function checkLoginData(data, email) {
+    let arrData = []
+    for (const dataItem in data) {
+        arrData.push(data[dataItem].login)
+    }
+
+    return  arrData.find(value => value === email) !== undefined
+}
+
+// function checkName(data, email) {
+//     let arrData = []
+//     for (const dataItem in data) {
+//         arrData.push(data[dataItem])
+//     }
+//     let testArr = []
+//     // let result = arrData.find(value => value === email)
+//     arrData.forEach((item, ind, arr) => {
+//         if (item.login !== email) {
+//             testArr.push('0')
+//         } else {
+//             testArr.push(item[ind].name)
+//         }
+//     })
+//
+//     return testArr
+// }
+
+export const FormLogin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
     const [emailHelperText, setEmailHelperText] = useState('');
     const [passwordHelperText, setPasswordHelperText] = useState('');
+    const [data, setData] = useState('');
     const history = useHistory()
+
+    useEffect(() => {
+        fetch('./users.json').then(response => {
+            return response.json()
+        }).then(data => {
+            setData(data)
+        }).catch(err => {
+            console.log("Error Reading data " + err)
+        })
+    }, [])
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -17,18 +65,21 @@ export const FormLogin = ({login, setLogin}) => {
         setPasswordError(false)
         let passwordGood = false
         let emailGood = false
-
         if (email === '') {
+
             setEmailError(true)
             setEmailHelperText('Пропущено поле')
         } else if (email.length < 8) {
             setEmailError(true)
             setEmailHelperText('Email < 8 символов')
-        } else {
+        } else if (checkLoginData(data, email)) {
             emailGood = true
+        } else {
+            setEmailError(true)
+            setEmailHelperText('Неверный email')
         }
-
         if (password === '') {
+
             setPasswordError(true)
             setPasswordHelperText('Пропущено поле')
         } else if (password.length < 3) {
@@ -37,13 +88,14 @@ export const FormLogin = ({login, setLogin}) => {
         } else {
             passwordGood = true
         }
-
         if (passwordGood && emailGood) {
+
             localStorage.setItem('Data', JSON.stringify({email, password}))
             history.push('/main-page')
         } else {
             console.log(`-Введённые данные-\nEmail: ${email}\nPassword: ${password}`)
         }
+        // console.log(checkName(data, email))
     }
 
     return (
@@ -83,6 +135,7 @@ export const FormLogin = ({login, setLogin}) => {
                     <Button variant="contained"
                             type='submit'
                             sx={{backgroundColor: '#FF685B', '&:hover':{backgroundColor: '#FF685B'}}}
+                            // onClick={() => getJSON(setData)}
                     >
                         Войти
                     </Button>
